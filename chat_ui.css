@@ -1,0 +1,14 @@
+.you-bubble {
+  display: flex;
+  justify-content: flex-end;
+  margin: 8px 0;
+}
+
+.bubble-content {
+  background-color: #4b4b4b;
+  border-radius: 32px;
+  padding: 7px 14px;
+  max-width: 75%;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  white-space: pre-wrap; 
+}
