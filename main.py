@@ -158,6 +158,7 @@ def main():
 
     frag = html_fragment(raw)
     markdown_output = md_from_chat(frag)
+    markdown_output='\n'+markdown_output # add a blank line at the beginning
 
     if not markdown_output.strip():
         sys.exit("❌ Couldn’t extract any usable Markdown.")
