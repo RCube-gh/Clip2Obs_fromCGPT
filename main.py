@@ -66,6 +66,8 @@ def insert_codefences(soup: BeautifulSoup, placeholders: dict) -> None:
     """Replace <pre><code> blocks with @@CODE{n}@@ placeholders and store Markdown strings in `placeholders`."""
     count = 0
     for pre in soup.find_all("pre"):
+        if pre.find_parent("div", attrs={"data-message-author-role": "user"}):
+            continue
         code = pre.find("code")
         if not code:
             continue
