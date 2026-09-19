@@ -125,22 +125,24 @@
     return true;
   }
 
-  // Listen on window so ChatGPT's own click handlers cannot consume the event
-  // before a dynamically added message reaches this extension.
+  // Listen on window so site click handlers cannot consume the event before a
+  // dynamically added message reaches this extension.
   function handleWindowClick(event) {
     if (!selectionMode || isCopyingAll || floatingBar?.contains(event.target)) return;
 
     const target = event.target instanceof Element ? event.target : event.target?.parentElement;
-    const messageElement = target?.closest?.('[data-message-author-role]');
-    if (!messageElement) return;
+    const messages = getMessagesWithKeys();
+    // ChatGPT, Gemini, and Grok use different message element structures.
+    // Match the click against the elements supplied by each converter instead
+    // of relying on ChatGPT's data-message-author-role attribute.
+    const clicked = messages.find(message =>
+      target && (message.element === target || message.element.contains(target))
+    );
+    if (!clicked) return;
 
     event.preventDefault();
     event.stopPropagation();
     window.getSelection()?.removeAllRanges();
-
-    const messages = getMessagesWithKeys();
-    const clicked = messages.find(message => message.element === messageElement);
-    if (!clicked) return;
 
     if (event.shiftKey && lastClickedKey && selectRange(messages, lastClickedKey, clicked.key)) {
       // Range selection only adds messages, matching standard shift-click behavior.
