@@ -1,0 +1,62 @@
+{
+  "manifest_version": 3,
+  "name": "Clip2Obs",
+  "version": "1.0.0",
+  "description": "ChatGPT の会話を選択して Obsidian 用 Markdown に変換",
+  "permissions": ["clipboardWrite", "activeTab"],
+  "icons": {
+    "16":  "icons/icon16.png",
+    "48":  "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "scripts": ["background.js"],
+    "preferred_environment": ["service_worker", "document"]
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "clip2obs@example.local"
+    }
+  },
+  "action": {
+    "default_icon": {
+      "16":  "icons/icon16.png",
+      "48":  "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "default_title": "Clip2Obs: 選択モード切替"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://chatgpt.com/*",
+        "https://chat.openai.com/*"
+      ],
+      "js":  ["converter.js", "content.js"],
+      "css": ["content.css"]
+    },
+    {
+      "matches": [
+        "https://gemini.google.com/*"
+      ],
+      "js":  ["converter_gemini.js", "content.js"],
+      "css": ["content.css"]
+    },
+    {
+      "matches": [
+        "https://grok.com/*"
+      ],
+      "js":  ["converter_grok.js", "content.js"],
+      "css": ["content.css"]
+    },
+    {
+      "matches": [
+        "https://www.google.com/search*",
+        "https://www.google.co.jp/search*"
+      ],
+      "js":  ["converter_google_search.js", "content.js"],
+      "css": ["content.css"]
+    }
+  ]
+}

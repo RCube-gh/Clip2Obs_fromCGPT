@@ -13,3 +13,10 @@ ChatGPTの会話文をObsidianに貼り付けるように直す
 5. ObsidianにCtrl+Vで貼り付け
 
 自分の発言内容をチャット風に表示するにはObsidianのsnippetにcss(`chat_ui.css`)を適用する必要がある
+
+
+という話は終わり、今は完全にextensionに移行している。
+- ChatGPT
+- Gemini
+- Grok
+の会話をmarkdownとしてコピーする

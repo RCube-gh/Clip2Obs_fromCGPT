@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 import html2text
 import re
 import sys
+import io
 
 OUTPUT_FILE = "converted_chat.md"
 CF_HTML = win32clipboard.RegisterClipboardFormat("HTML Format")
@@ -91,7 +92,7 @@ def insert_codefences(soup: BeautifulSoup, placeholders: dict) -> None:
         pre.replace_with(placeholder)
         count += 1
 
-       
+
 
 
 
@@ -152,6 +153,7 @@ def set_clipboard(text: str):
 
 
 def main():
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
     raw = get_html()
     if not raw:
         sys.exit("❌ No HTML or Unicode text found on clipboard.")
