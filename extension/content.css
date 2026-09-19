@@ -103,12 +103,30 @@
   background: #6d28d9;
 }
 
-#clip2obs-copy-btn:disabled {
+#clip2obs-copy-btn:disabled,
+#clip2obs-copy-all-btn:disabled,
+#clip2obs-clear-btn:disabled,
+#clip2obs-exit-btn:disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }
 
 #clip2obs-copy-btn.clip2obs-copied {
+  background: #059669 !important;
+}
+
+/* 全会話コピー */
+#clip2obs-copy-all-btn {
+  background: #2563eb;
+  color: #fff;
+  font-weight: 600;
+}
+
+#clip2obs-copy-all-btn:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+#clip2obs-copy-all-btn.clip2obs-copied {
   background: #059669 !important;
 }
 

@@ -64,6 +64,24 @@ function extractCmContent(cmContent) {
 }
 
 /**
+ * ChatGPT appends this tracking parameter to outgoing links. Remove only that
+ * parameter so URLs with meaningful query strings and fragments stay intact.
+ * @param {string} href
+ * @returns {string}
+ */
+function stripChatGptTrackingParam(href) {
+  try {
+    const url = new URL(href);
+    if (url.searchParams.get('utm_source') === 'chatgpt.com') {
+      url.searchParams.delete('utm_source');
+    }
+    return url.href;
+  } catch {
+    return href;
+  }
+}
+
+/**
  * DOM要素を再帰的にMarkdownに変換する
  * @param {Element} element
  * @returns {string}
@@ -179,7 +197,7 @@ function elementToMarkdown(element) {
       }
 
       case 'a':
-        return `[${children()}](${node.href})`;
+        return `[${children()}](${stripChatGptTrackingParam(node.href)})`;
 
       case 'img':
         return `![${node.alt || ''}](${node.src})`;
@@ -236,11 +254,13 @@ function convertMessageToMarkdown(messageDiv) {
     const textEl = messageDiv.querySelector('.whitespace-pre-wrap');
     const text = (textEl ? textEl.innerText : messageDiv.innerText).trim();
     return (
-      `<div class="you-bubble">\n` +
+      // convertMessagesToMarkdown inserts two newlines between turns. The
+      // extra newline here gives user bubbles two blank lines above and below.
+      `\n<div class="you-bubble">\n` +
       `  <div class="bubble-content">\n` +
       `${text}\n` +
       `  </div>\n` +
-      `</div>`
+      `</div>\n`
     );
   } else {
     // AI のメッセージ → Markdown に変換
